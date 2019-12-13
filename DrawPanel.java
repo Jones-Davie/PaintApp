@@ -5,8 +5,8 @@ import java.awt.*;
 public class DrawPanel extends JPanel {
 		
 	private ArrayList<PixelBox> pixelBoxes;
-	private int maxWidth = 1800;
-	private int maxHeigth = 600;
+	private int maxWidth;
+	private int maxHeigth;
 	private Color color;
 	private int x;
 	private int y;
@@ -19,7 +19,6 @@ public class DrawPanel extends JPanel {
 				
 			PixelBox pxBox = new PixelBox();
 			pxBox.setPixelNumber( i );
-			pxBox.setPixelColor( color );
 			pixelBoxes.add(pxBox);
 		}
 		
@@ -28,7 +27,7 @@ public class DrawPanel extends JPanel {
 	
 	public class PixelBox {
 			
-			public Color pixelColor = Color.BLUE;
+			public Color pixelColor = Color.WHITE;
 			public int pixelNumber;
 			
 			public void setPixelNumber( int pxNumber ) {
@@ -60,5 +59,13 @@ public class DrawPanel extends JPanel {
 		x = 0;
 		y = 0;
 	}	
+	
+	public void setWidth( int w ) {
+		maxWidth = w;
+	}
+	
+	public void setHeigth (int h) {
+		maxHeigth = h;
+	}
 	
 }

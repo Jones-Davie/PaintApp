@@ -11,9 +11,9 @@ public class Paint {
 	Menu colorMenu;
 	JPanel colorPanel;
 	DrawPanel drawPanel;
-	
-	private int width;
-	private int heigth;
+		
+	private int frameWidth = 800;
+	private int frameHeigth = 600;
 	
 	//init an array to hold the locations and sizes of the painted things
 	ArrayList<Integer> ovals = new ArrayList<Integer>();
@@ -26,15 +26,13 @@ public class Paint {
 	
 	//make an initialisation method
 	public void go () {
-	 
-		initFrame( width, heigth );
+		initFrame( frameWidth, frameHeigth );
 		initMenuBar();
 		initColorPanel();
 		initDrawPanel();
 		frame.setVisible(true);
 	}
 	
-
 	//initialisation methods
 	
 	private void initFrame ( int w, int h ) {
@@ -42,18 +40,24 @@ public class Paint {
 		frame = new JFrame("DrawApp");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		if ( h == 0 || w == 0) {
-			frame.setSize(860, 600);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenWidth = (int) screenSize.getWidth();
+		int screenHeight = (int) screenSize.getHeight();
 			
-		} else {
-			frame.setSize( (w + 60), h);
+		if ( (frameWidth + 60) > screenWidth ) {
+				frameWidth = (screenWidth - 60);
 		}
 		
+		if ( frameHeigth > screenHeight ) {
+				frameHeigth = screenHeight;
+		}
 		
+		frame.setSize( (frameWidth + 60), frameHeigth);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.getContentPane().setBackground( Color.LIGHT_GRAY );
 		
 	} // end init frame
 	
-
 	private void initMenuBar() {
 		
 		menuBar = new JMenuBar();
@@ -76,7 +80,6 @@ public class Paint {
 		frame.setJMenuBar(menuBar);
 		
 	} // end init menuBar
-	
 		
 	private void initColorPanel () {
 	
@@ -100,11 +103,12 @@ public class Paint {
 	private void initDrawPanel () {
 		
 		drawPanel = new DrawPanel();
+		drawPanel.setWidth(frameWidth);
+		drawPanel.setHeigth(frameHeigth);
 		drawPanel.go();
 		frame.add(BorderLayout.CENTER, drawPanel);
 		
 	}
-	
 	
 	//listener classes
 	public class newFileListener implements ActionListener {
