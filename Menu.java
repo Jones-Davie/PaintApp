@@ -18,10 +18,10 @@ public class Menu implements ActionListener {
 			String buttonText = colorList[i];
 			JButton button = new JButton( );
 			button.setName(buttonText);
-			button.setPreferredSize(new Dimension(150, 80));
+			button.setPreferredSize(new Dimension(50, 50));
 			//button.putClientProperty("JComponent.sizeVariant", "large");
 			button.setMinimumSize(new Dimension( 50, 50));
-			button.setMaximumSize(new Dimension( 100, 50));
+			button.setMaximumSize(new Dimension( 50, 50));
 			button.addActionListener( this );
 			
 			String buttonColor = "Color." + buttonText;
@@ -29,8 +29,8 @@ public class Menu implements ActionListener {
 			
 			try {
 				
-			Field field = Class.forName("java.awt.Color").getField(buttonText);
-			color = (Color)field.get(null);
+				Field field = Class.forName("java.awt.Color").getField(buttonText);
+				color = (Color)field.get(null);
 			
 			} catch ( Exception e ) {
 				color = null;
@@ -44,13 +44,11 @@ public class Menu implements ActionListener {
 			
 			//set the created button to its slot in the button array
 			colorButtons[i] = button;
-			
 		}
 	}
 	
 	
-	public void actionPerformed(ActionEvent e)
-		{
+	public void actionPerformed(ActionEvent e) {
 			
 			JButton source = (JButton) e.getSource();
 			Color sourceColor = source.getBackground();
@@ -58,13 +56,6 @@ public class Menu implements ActionListener {
 		}
 	
 	private void setColor ( Color c ) {
-		
-		color = c;
-		System.out.println("color = " + color );
-	
-	}		
-	
-	public Color getColor () {
-		return color;
+		color = c;	
 	}
 }

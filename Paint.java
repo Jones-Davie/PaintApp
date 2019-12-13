@@ -8,9 +8,9 @@ public class Paint {
 	//make a window for the app
 	JFrame frame;
 	JMenuBar menuBar;
-	JMenu colorMenu;
+	Menu colorMenu;
 	JPanel colorPanel;
-	
+	DrawPanel drawPanel;
 	
 	private int width;
 	private int heigth;
@@ -30,26 +30,17 @@ public class Paint {
 		initFrame( width, heigth );
 		initMenuBar();
 		initColorPanel();
+		initDrawPanel();
+		frame.setVisible(true);
+	}
+	
 
-	}
+	//initialisation methods
 	
-	//make a class that paints the ovals on the frame
-	class MyDrawPannel extends JPanel {
-		
-		public void paintComponent (Graphics g) {
-			
-			//make a variable for the 2d paint function
-			Graphics2D g2d = (Graphics2D) g;
-			
-		}
-	}
-	
-	//init frame
 	private void initFrame ( int w, int h ) {
 		
 		frame = new JFrame("DrawApp");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
 		
 		if ( h == 0 || w == 0) {
 			frame.setSize(860, 600);
@@ -57,18 +48,26 @@ public class Paint {
 		} else {
 			frame.setSize( (w + 60), h);
 		}
+		
+		
+		
 	} // end init frame
 	
-	//init menuBar
+
 	private void initMenuBar() {
 		
 		menuBar = new JMenuBar();
 		
-		//make file items
 		JMenu fileMenu = new JMenu("file");
+		
 		JMenuItem newFile = new JMenuItem("New");
 		JMenuItem loadFile = new JMenuItem("Load file");
 		JMenuItem saveFile = new JMenuItem("Save File");
+		
+		newFile.addActionListener(new newFileListener());
+		loadFile.addActionListener(new loadFileListener());
+		saveFile.addActionListener(new saveFileListener());
+		
 		fileMenu.add(newFile);
 		fileMenu.add(loadFile);
 		fileMenu.add(saveFile);
@@ -78,6 +77,7 @@ public class Paint {
 		
 	} // end init menuBar
 	
+		
 	private void initColorPanel () {
 	
 		//init a pannel to hold to color buttons
@@ -96,4 +96,44 @@ public class Paint {
 		
 		frame.getContentPane().add(BorderLayout.WEST, colorPanel);
 	} //end initColorPanel
+	
+	private void initDrawPanel () {
+		
+		drawPanel = new DrawPanel();
+		drawPanel.go();
+		frame.add(BorderLayout.CENTER, drawPanel);
+		
+	}
+	
+	
+	//listener classes
+	public class newFileListener implements ActionListener {
+		public void actionPerformed ( ActionEvent ev) {
+			
+			int [] heightWidth;
+			
+			System.out.println("newFileListener");
+			
+			try {
+					
+						
+			} catch (Exception ex ) {
+				ex.printStackTrace();
+			}
+			
+		}
+	}
+	
+	public class loadFileListener implements ActionListener {
+		public void actionPerformed ( ActionEvent ev) {
+			System.out.println("loadFileListener");
+		}
+	}
+	
+	public class saveFileListener implements ActionListener {
+		public void actionPerformed ( ActionEvent ev) {
+			System.out.println("saveFileListener");
+		}
+	}
+	
 }

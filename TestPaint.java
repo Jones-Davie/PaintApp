@@ -5,10 +5,7 @@ public class TestPaint {
 		TestPaint test = new TestPaint();
 		Paint paint = new Paint();
 		paint.go();
-		
-		Menu menu = new Menu();
-		System.out.println("color = " + menu.getColor());
-		
+			
 	}
 	
 }
