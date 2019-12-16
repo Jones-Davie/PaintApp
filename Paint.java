@@ -10,16 +10,12 @@ public class Paint {
 	JMenuBar menuBar;
 	Menu colorMenu;
 	JPanel colorPanel;
+	JPanel contentPanel;
 	DrawPanel drawPanel;
+	boolean drawPanelAdded = false;
 		
 	private int frameWidth = 800;
 	private int frameHeigth = 600;
-	
-	//init an array to hold the locations and sizes of the painted things
-	ArrayList<Integer> ovals = new ArrayList<Integer>();
-	
-	//make variables to check how many of each have been created
-	long paintedOvals = 0;
 	
 	//check if the user has mousedown
 	boolean mousedown = false;
@@ -39,10 +35,14 @@ public class Paint {
 		
 		frame = new JFrame("DrawApp");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		contentPanel = (JPanel) frame.getContentPane();
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenWidth = (int) screenSize.getWidth();
 		int screenHeight = (int) screenSize.getHeight();
+		
+		frameWidth = w;
+		frameHeigth = h;
 			
 		if ( (frameWidth + 60) > screenWidth ) {
 				frameWidth = (screenWidth - 60);
@@ -80,6 +80,7 @@ public class Paint {
 		frame.setJMenuBar(menuBar);
 		
 	} // end init menuBar
+	
 		
 	private void initColorPanel () {
 	
@@ -87,6 +88,7 @@ public class Paint {
 		colorPanel = new JPanel();
 		colorPanel.setLayout(new BoxLayout ( colorPanel, BoxLayout.Y_AXIS) );
 		colorPanel.setBackground(Color.gray);
+		colorPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 		colorPanel.setMinimumSize(new Dimension( 50, 450) );
 		
 		//make a menu from the menu class and initialise it with go();
@@ -102,13 +104,22 @@ public class Paint {
 	
 	private void initDrawPanel () {
 		
+		
+		BorderLayout layout = (BorderLayout) contentPanel.getLayout();
+		
+		if ( drawPanelAdded ) {
+			contentPanel.remove(drawPanel);
+		}
+		
 		drawPanel = new DrawPanel();
 		drawPanel.setWidth(frameWidth);
 		drawPanel.setHeigth(frameHeigth);
 		drawPanel.go();
 		frame.add(BorderLayout.CENTER, drawPanel);
-		
+		drawPanelAdded = true;
+		frame.repaint();
 	}
+	
 	
 	//listener classes
 	public class newFileListener implements ActionListener {
@@ -119,8 +130,12 @@ public class Paint {
 			System.out.println("newFileListener");
 			
 			try {
+					frame.setVisible(false);
+					frameWidth = 1500;
+					frameHeigth = 1100;
+					go();
+					frame.setVisible(true);
 					
-						
 			} catch (Exception ex ) {
 				ex.printStackTrace();
 			}

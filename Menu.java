@@ -58,4 +58,5 @@ public class Menu implements ActionListener {
 	private void setColor ( Color c ) {
 		color = c;	
 	}
+	
 }
