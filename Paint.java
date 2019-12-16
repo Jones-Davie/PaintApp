@@ -12,17 +12,19 @@ public class Paint {
 	JPanel colorPanel;
 	JPanel contentPanel;
 	DrawPanel drawPanel;
-	boolean drawPanelAdded = false;
+	
+	//make boolean to check if it is the first startup
+	boolean hasInitialized = false;
 		
 	private int frameWidth = 800;
-	private int frameHeigth = 600;
+	private int frameHeight = 600;
 	
 	//check if the user has mousedown
 	boolean mousedown = false;
 	
 	//make an initialisation method
 	public void go () {
-		initFrame( frameWidth, frameHeigth );
+		initFrame( frameWidth, frameHeight );
 		initMenuBar();
 		initColorPanel();
 		initDrawPanel();
@@ -33,26 +35,28 @@ public class Paint {
 	
 	private void initFrame ( int w, int h ) {
 		
-		frame = new JFrame("DrawApp");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		contentPanel = (JPanel) frame.getContentPane();
+		if (!hasInitialized) {
+			frame = new JFrame("DrawApp");
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 		
+		contentPanel = (JPanel) frame.getContentPane();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenWidth = (int) screenSize.getWidth();
 		int screenHeight = (int) screenSize.getHeight();
 		
 		frameWidth = w;
-		frameHeigth = h;
+		frameHeight = h;
 			
 		if ( (frameWidth + 60) > screenWidth ) {
 				frameWidth = (screenWidth - 60);
 		}
 		
-		if ( frameHeigth > screenHeight ) {
-				frameHeigth = screenHeight;
+		if ( frameHeight > screenHeight ) {
+				frameHeight = screenHeight;
 		}
 		
-		frame.setSize( (frameWidth + 60), frameHeigth);
+		frame.setSize( (frameWidth + 60), frameHeight);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.getContentPane().setBackground( Color.LIGHT_GRAY );
 		
@@ -104,20 +108,22 @@ public class Paint {
 	
 	private void initDrawPanel () {
 		
-		
 		BorderLayout layout = (BorderLayout) contentPanel.getLayout();
 		
-		if ( drawPanelAdded ) {
+		if ( hasInitialized ) {
 			contentPanel.remove(drawPanel);
 		}
 		
 		drawPanel = new DrawPanel();
 		drawPanel.setWidth(frameWidth);
-		drawPanel.setHeigth(frameHeigth);
+		drawPanel.setHeigth(frameHeight);
 		drawPanel.go();
 		frame.add(BorderLayout.CENTER, drawPanel);
-		drawPanelAdded = true;
 		frame.repaint();
+		
+		//set initialisation to true only after the drawPanel has been initiated aswell, otherwise nullpointer exception
+		hasInitialized = true;
+		
 	}
 	
 	
@@ -127,19 +133,21 @@ public class Paint {
 			
 			int [] heightWidth;
 			
-			System.out.println("newFileListener");
-			
 			try {
-					frame.setVisible(false);
-					frameWidth = 1500;
-					frameHeigth = 1100;
-					go();
-					frame.setVisible(true);
-					
+
+				NewFilePanel newFilePanel = new NewFilePanel();
+				
+				//outputs the inputvalues of the user in the order of X value Y value
+				int[] newWidthAndHeigth = newFilePanel.widthAndHeight();
+				
+				frameWidth = newWidthAndHeigth[0];
+				frameHeight = newWidthAndHeigth[1];
+				
+				go();
+			
 			} catch (Exception ex ) {
 				ex.printStackTrace();
 			}
-			
 		}
 	}
 	
