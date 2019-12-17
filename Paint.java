@@ -140,11 +140,18 @@ public class Paint {
 				//outputs the inputvalues of the user in the order of X value Y value
 				int[] newWidthAndHeigth = newFilePanel.widthAndHeight();
 				
-				frameWidth = newWidthAndHeigth[0];
-				frameHeight = newWidthAndHeigth[1];
-				
-				go();
-			
+				if (newWidthAndHeigth[0] > 0 && newWidthAndHeigth[1] > 0) {
+					
+					System.out.println(newWidthAndHeigth[0] + " " + newWidthAndHeigth[1]);
+					frameWidth = newWidthAndHeigth[0];
+					frameHeight = newWidthAndHeigth[1];
+					
+					go();
+				} else {
+					JOptionPane.showMessageDialog(frame, 
+						"File creation failed","Warning",
+						JOptionPane.WARNING_MESSAGE);
+				}
 			} catch (Exception ex ) {
 				ex.printStackTrace();
 			}

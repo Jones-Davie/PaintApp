@@ -13,6 +13,7 @@ public class DrawPanel extends JPanel {
 	
 	public void go () {
 		
+		//make an array of 1px by 1px boxes that will be able to change background color
 		pixelBoxes = new ArrayList<PixelBox>();
 		
 		for (int i = 0; i < (( maxHeigth * maxWidth) - 1); i++ ) {
@@ -21,10 +22,9 @@ public class DrawPanel extends JPanel {
 			pxBox.setPixelNumber( i );
 			pixelBoxes.add(pxBox);
 		}
-		
-			System.out.println("drawPanel called");
 	}
 	
+	//the changeable pixel class
 	public class PixelBox {
 			
 			public Color pixelColor = Color.WHITE;
@@ -39,6 +39,7 @@ public class DrawPanel extends JPanel {
 			}
 	}
 	
+	//the function that will paint a square pixel for each pixel in the pixelBoxArray
 	public void paintComponent ( Graphics g ) {
 		
 		Graphics2D g2D = (Graphics2D) g;
@@ -58,8 +59,10 @@ public class DrawPanel extends JPanel {
 		
 		x = 0;
 		y = 0;
+		
 	}	
 	
+	//setters
 	public void setWidth( int w ) {
 		maxWidth = w;
 	}

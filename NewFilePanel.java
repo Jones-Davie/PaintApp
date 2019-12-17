@@ -13,24 +13,31 @@ public class NewFilePanel {
 		int height = 0;
 		
 		try {
-	
+			//make newFilePanel and buttons
 			JPanel newFilePanel = new JPanel();
-			newFilePanel.setMinimumSize(new Dimension (300, 150));
+			newFilePanel.setMinimumSize(new Dimension (150, 60));
+			newFilePanel.setPreferredSize(new Dimension(150, 60));
+			JLabel error = new JLabel("");
+			error.setBorder(BorderFactory.createEmptyBorder( 0, 0, 10, 0));			
+			
 			JLabel xLabel = new JLabel("X Value:");
 			newFilePanel.add(xLabel);
 			
 			TextField xField = new TextField();
+			xField.setMinimumSize(new Dimension(40, 20));
+			xField.setPreferredSize(new Dimension(40, 20));
 			xField.addKeyListener(new KeyAdapter() {
 				
+				//disable the input unless a number, arrow keys, delete or backspace is pressed
 				public void keyPressed(KeyEvent ke) {
 					String value = xField.getText();
 					int l = value.length();
-					if (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') {
+					if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || ke.getKeyCode() == KeyEvent.VK_BACK_SPACE || ke.getKeyCode() ==  KeyEvent.VK_DELETE || ( ke.getKeyCode() ==  KeyEvent.VK_LEFT ||  ke.getKeyCode() ==  KeyEvent.VK_RIGHT )) {
 						xField.setEditable(true);
-						xLabel.setText("X Value:");
+						error.setText("");
 					} else {
 					   xField.setEditable(false);
-					   xLabel.setText("X Value: Enter only numeric digits(0-9)");
+					   error.setText("Please enter a number");
 					}
 				}
 			});
@@ -41,26 +48,30 @@ public class NewFilePanel {
 			newFilePanel.add(yLabel);
 			
 			TextField yField = new TextField();
+			yField.setMinimumSize(new Dimension(40, 20));
+			yField.setPreferredSize(new Dimension(40, 20));
 			yField.addKeyListener(new KeyAdapter() {
 				
 				public void keyPressed(KeyEvent ke) {
 					String value = yField.getText();
 					int l = value.length();
-					if (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') {
+					if ((ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9') || ke.getKeyCode() == KeyEvent.VK_BACK_SPACE || ke.getKeyCode() ==  KeyEvent.VK_DELETE || ( ke.getKeyCode() ==  KeyEvent.VK_LEFT ||  ke.getKeyCode() ==  KeyEvent.VK_RIGHT )) {
 						yField.setEditable(true);
-						yLabel.setText("Y Value:");
+						error.setText("");
 					} else {
 					   yField.setEditable(false);
-					   yLabel.setText("Y Value: Enter only numeric digits(0-9)");
+					   error.setText("Please enter a number");
 					}
 				}
 			});
 			
 			newFilePanel.add(yField);
 			
-			
+			//add error last to put it at the bottom
+			newFilePanel.add(error);
+
 			int result = JOptionPane.showConfirmDialog(null, newFilePanel, 
-				"Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+				"Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
 				
 				if (result == JOptionPane.OK_OPTION) {
 					
@@ -72,8 +83,6 @@ public class NewFilePanel {
 					}
 				}
 	
-			
-			
 		} catch ( Exception e ) {
 			
 			e.printStackTrace();
