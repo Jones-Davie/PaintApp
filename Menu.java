@@ -47,7 +47,6 @@ public class Menu implements ActionListener {
 		}
 	}
 	
-	
 	public void actionPerformed(ActionEvent e) {
 			
 			JButton source = (JButton) e.getSource();
@@ -57,6 +56,10 @@ public class Menu implements ActionListener {
 	
 	private void setColor ( Color c ) {
 		color = c;	
+	}
+	
+	public Color getColor ( ) {
+		return color;	
 	}
 	
 }

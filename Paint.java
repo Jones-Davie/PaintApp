@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.util.*;
 
 public class Paint {
-	
+		
 	//make a window for the app
 	JFrame frame;
 	JMenuBar menuBar;
@@ -20,7 +20,7 @@ public class Paint {
 	private int frameHeight = 600;
 	
 	//check if the user has mousedown
-	boolean mousedown = false;
+	boolean mouseDown = false;
 	
 	//make an initialisation method
 	public void go () {
@@ -59,6 +59,8 @@ public class Paint {
 		frame.setSize( (frameWidth + 60), frameHeight);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		frame.getContentPane().setBackground( Color.LIGHT_GRAY );
+		frame.addMouseListener(new MouseListen());
+		frame.addMouseMotionListener(new MouseListen());
 		
 	} // end init frame
 	
@@ -119,13 +121,10 @@ public class Paint {
 		drawPanel.setHeigth(frameHeight);
 		drawPanel.go();
 		frame.add(BorderLayout.CENTER, drawPanel);
-		frame.repaint();
 		
 		//set initialisation to true only after the drawPanel has been initiated aswell, otherwise nullpointer exception
 		hasInitialized = true;
-		
 	}
-	
 	
 	//listener classes
 	public class newFileListener implements ActionListener {
@@ -168,6 +167,50 @@ public class Paint {
 		public void actionPerformed ( ActionEvent ev) {
 			System.out.println("saveFileListener");
 		}
+	}
+	
+	public class MouseListen extends MouseAdapter {
+
+        public void mouseClicked(MouseEvent e) {
+			
+        }
+        public void mouseEntered(MouseEvent e) {
+        }
+        public void mouseExited(MouseEvent e) {
+
+		}
+        public void mousePressed(MouseEvent e) {
+			mouseDown = true;
+			draw(e);
+			
+        }
+        public void mouseReleased(MouseEvent e) {
+			mouseDown = false;
+		}
+			
+		public void mouseMoved ( MouseEvent e ) {
+			int x = (int) e.getX();
+			int y = (int) e.getY();
+		}
+    }
+	
+	public void draw ( MouseEvent e ) {
+		
+		int x = (int) e.getX();
+		int y = (int) e.getY();
+		
+		System.out.println("X: " + x + " Y: " + y);
+		
+		Color c = colorMenu.getColor();
+								
+		if ( x < frameWidth && y < frameHeight && hasInitialized ) {
+			System.out.println( (x+(y*frameHeight)));
+			drawPanel.pixelBoxes.get(( x + (y * frameHeight))).setPixelColor(c);
+		}
+				
+		drawPanel.repaint();
+				
+				
 	}
 	
 }

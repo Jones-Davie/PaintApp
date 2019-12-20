@@ -1,15 +1,24 @@
 import java.util.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
 
 public class DrawPanel extends JPanel {
+	
+	public DrawPanel () {
 		
-	private ArrayList<PixelBox> pixelBoxes;
+		//addMouseListener(new MouseListen());
+		//addMouseMotionListener(new MouseListen());
+	}
+		
+	public ArrayList<PixelBox> pixelBoxes;
 	private int maxWidth;
 	private int maxHeigth;
 	private Color color;
 	private int x;
 	private int y;
+	private boolean initiated = false;
 	
 	public void go () {
 		
@@ -19,25 +28,28 @@ public class DrawPanel extends JPanel {
 		for (int i = 0; i < (( maxHeigth * maxWidth) - 1); i++ ) {
 				
 			PixelBox pxBox = new PixelBox();
-			pxBox.setPixelNumber( i );
 			pixelBoxes.add(pxBox);
 		}
+		
+		initiated = true;
 	}
 	
 	//the changeable pixel class
 	public class PixelBox {
+		
+		public PixelBox () {
+		}
+				
+		public Color pixelColor = Color.WHITE;
 			
-			public Color pixelColor = Color.WHITE;
-			public int pixelNumber;
-			
-			public void setPixelNumber( int pxNumber ) {
-				pixelNumber = pxNumber;
+		public void setPixelColor( Color c ) {
+			pixelColor = c;
+			if(initiated = true) {
+
 			}
-			
-			public void setPixelColor( Color c ) {
-				pixelColor = c;
-			}
+		}
 	}
+	
 	
 	//the function that will paint a square pixel for each pixel in the pixelBoxArray
 	public void paintComponent ( Graphics g ) {
@@ -71,4 +83,18 @@ public class DrawPanel extends JPanel {
 		maxHeigth = h;
 	}
 	
+	
+	/*/MouseListenerClass
+	class MouseListen extends MouseAdapter {
+
+        public void mousePressed( MouseEvent ev ) {
+			
+				System.out.println("pressed");
+            }
+			
+		public void mouseMoved ( MouseEvent e ) {
+			int x = (int) e.getX();
+			int y = (int) e.getY();
+		}
+    }*/
 }
